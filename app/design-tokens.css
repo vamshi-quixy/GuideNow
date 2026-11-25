@@ -1,0 +1,205 @@
+/*
+ * GuideNow design tokens.
+ * Source: Figma "Test Agent (DS)". Foundations / Color, Typography, Spacing.
+ * The Figma system is WIP. Only add tokens here once they exist in Figma.
+ * Usage guide: docs/design-system.md
+ */
+
+@theme {
+  /* ------------------------------------------------------------------ */
+  /* Typography: DM Sans product type scale                              */
+  /* ------------------------------------------------------------------ */
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+
+  /* Display / Page Title: 32 / 40, SemiBold */
+  --text-display: 2rem;
+  --text-display--line-height: 2.5rem;
+  --text-display--font-weight: 600;
+  /* Heading 1: 28 / 36, SemiBold */
+  --text-h1: 1.75rem;
+  --text-h1--line-height: 2.25rem;
+  --text-h1--font-weight: 600;
+  /* Heading 2: 24 / 32, SemiBold */
+  --text-h2: 1.5rem;
+  --text-h2--line-height: 2rem;
+  --text-h2--font-weight: 600;
+  /* Heading 3 (card or panel heading): 20 / 28, SemiBold */
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1.75rem;
+  --text-h3--font-weight: 600;
+  /* Body Large: 18 / 28, Regular */
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.75rem;
+  --text-body-lg--font-weight: 400;
+  /* Body Medium (default body): 16 / 24, Regular */
+  --text-body-md: 1rem;
+  --text-body-md--line-height: 1.5rem;
+  --text-body-md--font-weight: 400;
+  /* Body Small / Label: 14 / 20, Medium */
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.25rem;
+  --text-body-sm--font-weight: 500;
+  /* Caption / Helper: 12 / 16, Regular */
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1rem;
+  --text-caption--font-weight: 400;
+  /* Micro: 8 / 12, Medium */
+  --text-micro: 0.5rem;
+  --text-micro--line-height: 0.75rem;
+  --text-micro--font-weight: 500;
+
+  /* ------------------------------------------------------------------ */
+  /* Color: primitives                                                   */
+  /* ------------------------------------------------------------------ */
+  --color-brand-50: #f5f1f8;
+  --color-brand-100: #ebe3f2;
+  --color-brand-200: #d6c5e4;
+  --color-brand-300: #bba2d2;
+  --color-brand-400: #9877b8;
+  --color-brand-500: #704a96;
+  --color-brand-600: #502b7f;
+  --color-brand-700: #43236b;
+  --color-brand-800: #351b56;
+  --color-brand-900: #281441;
+
+  --color-peach-50: #fff7f4;
+  --color-peach-100: #feebe4;
+  --color-peach-200: #fcd7ca;
+  --color-peach-300: #fac2ae;
+  --color-peach-400: #f9b69d;
+  --color-peach-500: #f9ab8f;
+  --color-peach-600: #e88e71;
+  --color-peach-700: #c76e55;
+  --color-peach-800: #9f523e;
+  --color-peach-900: #743729;
+
+  /* Replaces Tailwind's default pink scale */
+  --color-pink-50: #fff0f5;
+  --color-pink-100: #ffd9e6;
+  --color-pink-200: #ffb3cd;
+  --color-pink-300: #ff7fa8;
+  --color-pink-400: #fb3e79;
+  --color-pink-500: #f40752;
+  --color-pink-600: #d90449;
+  --color-pink-700: #b4033d;
+  --color-pink-800: #8e0331;
+  --color-pink-900: #680226;
+
+  /* Brand / Secondary gradient: bg-linear-to-r from-gradient-start to-gradient-end */
+  --color-gradient-start: var(--color-peach-500);
+  --color-gradient-end: var(--color-pink-500);
+
+  /* Replaces Tailwind's default neutral scale */
+  --color-neutral-0: #ffffff;
+  --color-neutral-50: #f9fafb;
+  --color-neutral-100: #f3f4f6;
+  --color-neutral-200: #e5e7eb;
+  --color-neutral-300: #d1d5db;
+  --color-neutral-400: #9ca3af;
+  --color-neutral-500: #6b7280;
+  --color-neutral-600: #4b5563;
+  --color-neutral-700: #374151;
+  --color-neutral-800: #1f2937;
+  --color-neutral-900: #111827;
+  --color-neutral-950: #030712;
+
+  --color-success-50: #f0fdf4;
+  --color-success-100: #dcfce7;
+  --color-success-500: #22c55e;
+  --color-success-600: #16a34a;
+  --color-success-700: #15803d;
+
+  --color-warning-50: #fffbeb;
+  --color-warning-100: #fef3c7;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+  --color-warning-700: #b45309;
+
+  --color-error-50: #fef2f2;
+  --color-error-100: #fee2e2;
+  --color-error-500: #ef4444;
+  --color-error-600: #dc2626;
+  --color-error-700: #b91c1c;
+
+  --color-info-50: #ecfeff;
+  --color-info-100: #cffafe;
+  --color-info-500: #06b6d4;
+  --color-info-600: #0891b2;
+  --color-info-700: #0e7490;
+
+  /* ------------------------------------------------------------------ */
+  /* Color: semantic tokens (prefer these in product UI)                 */
+  /* ------------------------------------------------------------------ */
+
+  /* Text/*: text-primary, text-secondary, text-link, ... */
+  --text-color-primary: var(--color-neutral-900);
+  --text-color-secondary: var(--color-neutral-600);
+  --text-color-tertiary: var(--color-neutral-500);
+  --text-color-disabled: var(--color-neutral-400);
+  --text-color-inverse: var(--color-neutral-0);
+  --text-color-link: var(--color-brand-600);
+  --text-color-success: var(--color-success-700);
+  --text-color-warning: var(--color-warning-700);
+  --text-color-error: var(--color-error-700);
+
+  /* Background/*: bg-page, bg-surface, bg-hover, ... */
+  --background-color-page: var(--color-neutral-50);
+  --background-color-surface: var(--color-neutral-0);
+  --background-color-surface-secondary: var(--color-neutral-100);
+  --background-color-elevated: var(--color-neutral-0);
+  --background-color-hover: var(--color-neutral-100);
+  --background-color-selected: var(--color-brand-50);
+  --background-color-disabled: var(--color-neutral-100);
+  --background-color-inverse: var(--color-neutral-900);
+
+  /* Border/*: border-default, border-focus, ... */
+  --border-color-subtle: var(--color-neutral-100);
+  --border-color-default: var(--color-neutral-200);
+  --border-color-strong: var(--color-neutral-400);
+  --border-color-hover: var(--color-neutral-500);
+  --border-color-focus: var(--color-brand-600);
+  --border-color-disabled: var(--color-neutral-200);
+  --border-color-success: var(--color-success-500);
+  --border-color-error: var(--color-error-500);
+
+  /* Action/*: bg-action-primary hover:bg-action-primary-hover, ... */
+  --color-action-primary: var(--color-brand-600);
+  --color-action-primary-hover: var(--color-brand-700);
+  --color-action-primary-pressed: var(--color-brand-800);
+  --color-action-primary-disabled: var(--color-neutral-300);
+  --color-action-secondary: var(--color-neutral-0);
+  --color-action-secondary-hover: var(--color-neutral-100);
+  --color-action-secondary-pressed: var(--color-neutral-200);
+  --color-action-danger: var(--color-error-600);
+  --color-action-danger-hover: var(--color-error-700);
+
+  /* Status/*: bg-status-success-bg text-status-success-text, ... */
+  --color-status-success-bg: var(--color-success-50);
+  --color-status-success-text: var(--color-success-700);
+  --color-status-success-icon: var(--color-success-600);
+  --color-status-warning-bg: var(--color-warning-50);
+  --color-status-warning-text: var(--color-warning-700);
+  --color-status-warning-icon: var(--color-warning-600);
+  --color-status-error-bg: var(--color-error-50);
+  --color-status-error-text: var(--color-error-700);
+  --color-status-error-icon: var(--color-error-600);
+  --color-status-info-bg: var(--color-info-50);
+  --color-status-info-text: var(--color-info-700);
+  --color-status-info-icon: var(--color-info-600);
+
+  /* Focus/Ring, Selection/*: ring-focus-ring, bg-selection-bg, ... */
+  --color-focus-ring: var(--color-brand-600);
+  --color-selection-bg: var(--color-brand-50);
+  --color-selection-border: var(--color-brand-600);
+
+  /* ------------------------------------------------------------------ */
+  /* Spacing                                                             */
+  /* ------------------------------------------------------------------ */
+  /*
+   * Scale (px): 2 4 6 8 10 12 16 20 24 28 32 40 48 56 64 72 80 90.
+   * Figma spacing variables are named by Tailwind step on this default
+   * 4px multiplier: Figma Spacing/4 = p-4 = 16px. Decimal steps use a dash
+   * in Figma (Spacing/0-5 = p-0.5). Full table: docs/design-system.md
+   */
+  --spacing: 0.25rem;
+}
