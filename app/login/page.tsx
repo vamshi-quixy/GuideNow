@@ -70,6 +70,8 @@ export default function LoginPage() {
         return;
       }
 
+      setEmail("");
+      setPassword("");
       router.push("/dashboard");
       router.refresh();
     } catch {

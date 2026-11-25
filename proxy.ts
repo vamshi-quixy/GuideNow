@@ -1,8 +1,9 @@
-import { createServerClient } from "@supabase/ssr";
+import { createServerClient, type SetAllCookies } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function proxy(request: NextRequest) {
-  let response = NextResponse.next({ request });
+  const sessionCookies: Parameters<SetAllCookies>[0] = [];
+  const sessionHeaders = new Headers();
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -12,14 +13,14 @@ export async function proxy(request: NextRequest) {
         getAll() {
           return request.cookies.getAll();
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet, headers) {
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value),
           );
-          response = NextResponse.next({ request });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options),
-          );
+          sessionCookies.push(...cookiesToSet);
+          for (const [name, value] of Object.entries(headers)) {
+            sessionHeaders.set(name, value);
+          }
         },
       },
     },
@@ -29,18 +30,20 @@ export async function proxy(request: NextRequest) {
   const signedIn = !!data?.claims;
   const path = request.nextUrl.pathname;
 
+  const url = request.nextUrl.clone();
   if (!signedIn && path.startsWith("/dashboard")) {
-    const url = request.nextUrl.clone();
     url.pathname = "/login";
-    return NextResponse.redirect(url);
-  }
-
-  if (signedIn && (path === "/login" || path === "/signup")) {
-    const url = request.nextUrl.clone();
+  } else if (signedIn && (path === "/login" || path === "/signup")) {
     url.pathname = "/dashboard";
-    return NextResponse.redirect(url);
   }
 
+  const response = url.pathname === path
+    ? NextResponse.next({ request })
+    : NextResponse.redirect(url);
+  sessionHeaders.forEach((value, name) => response.headers.set(name, value));
+  for (const { name, value, options } of sessionCookies) {
+    response.cookies.set(name, value, options);
+  }
   return response;
 }
 

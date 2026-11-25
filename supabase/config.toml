@@ -1,0 +1,8 @@
+project_id = "guidenow"
+
+[auth]
+minimum_password_length = 8
+password_requirements = "letters_digits"
+
+[auth.email]
+enable_confirmations = true

@@ -2,11 +2,17 @@ import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { connection } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { LogoutForm } from "./logout-form";
 
 async function signOut() {
   "use server";
-  const supabase = await createClient();
-  await supabase.auth.signOut();
+  try {
+    const supabase = await createClient();
+    const { error } = await supabase.auth.signOut({ scope: "local" });
+    if (error) return "Logout could not be confirmed. Try again.";
+  } catch {
+    return "Logout could not be confirmed. Try again.";
+  }
   redirect("/login");
 }
 
@@ -20,11 +26,7 @@ async function UserInfo() {
   return (
     <>
       <p className="mt-2">Signed in as {data.user.email}</p>
-      <form action={signOut} className="mt-4">
-        <button type="submit" className="border px-3 py-1">
-          Log out
-        </button>
-      </form>
+      <LogoutForm signOutAction={signOut} />
     </>
   );
 }

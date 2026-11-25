@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState, type FormEvent } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { validateEmail, validatePassword } from "@/lib/validation";
+import { MIN_PASSWORD_LENGTH, validateEmail, validatePassword } from "@/lib/validation";
 
 const inputClass = "block w-full rounded border border-current/40 px-3 py-2";
 const buttonClass = "rounded border border-current px-3 py-2 disabled:opacity-50";
@@ -16,7 +16,6 @@ export default function SignupPage() {
   const [password, setPassword] = useState("");
   const [confirmation, setConfirmation] = useState("");
   const [error, setError] = useState("");
-  const [duplicate, setDuplicate] = useState(false);
   const [pending, setPending] = useState(false);
   const [cooldown, setCooldown] = useState(false);
   const [resent, setResent] = useState(false);
@@ -29,7 +28,6 @@ export default function SignupPage() {
 
   function changeEmail() {
     setError("");
-    setDuplicate(false);
     setPassword("");
     setConfirmation("");
     setStep("email");
@@ -47,7 +45,6 @@ export default function SignupPage() {
   async function signUp(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (pending) return;
-    setDuplicate(false);
     const passwordError = validatePassword(password);
     if (passwordError || password !== confirmation) {
       setError(passwordError ?? "Passwords do not match.");
@@ -57,20 +54,16 @@ export default function SignupPage() {
     setPending(true);
     setError("");
     try {
-      const { data, error: authError } = await createClient().auth.signUp({
+      const { error: authError } = await createClient().auth.signUp({
         email,
         password,
         options: { emailRedirectTo: `${window.location.origin}/auth/confirm` },
       });
       if (
-        authError?.code === "user_already_exists" ||
-        authError?.code === "email_exists" ||
-        (!authError && data.user?.identities?.length === 0)
+        authError &&
+        authError.code !== "user_already_exists" &&
+        authError.code !== "email_exists"
       ) {
-        setDuplicate(true);
-        return;
-      }
-      if (authError) {
         setError(authError.status === 429 ? rateLimitError : genericError);
         return;
       }
@@ -153,7 +146,7 @@ export default function SignupPage() {
             />
           </label>
           <p id="password-rules" className="text-sm">
-            Use 6 to 15 characters with at least one letter and one number.
+            Use at least {MIN_PASSWORD_LENGTH} characters, including a letter and a number.
           </p>
           <label className="block space-y-1">
             <span>Confirm password</span>
@@ -175,7 +168,7 @@ export default function SignupPage() {
       )}
       {step === "confirmation" && (
         <div className="space-y-3">
-          <p role="status">Check your email for a confirmation link.</p>
+          <p role="status">Check your inbox.</p>
           <button className={buttonClass} type="button" onClick={resend} disabled={pending || cooldown}>
             {pending ? "Sending…" : "Resend"}
           </button>
@@ -184,11 +177,7 @@ export default function SignupPage() {
         </div>
       )}
       {error && <p role="alert">{error}</p>}
-      {duplicate ? (
-        <p role="alert">User already exists. <Link className="underline" href="/login">Please log in.</Link></p>
-      ) : (
-        <p>Already have an account? <Link className="underline" href="/login">Log in</Link></p>
-      )}
+      <p>Already have an account? <Link className="underline" href="/login">Log in</Link></p>
     </main>
   );
 }
