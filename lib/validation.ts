@@ -1,5 +1,7 @@
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-export const MIN_PASSWORD_LENGTH = 8;
+export const MIN_PASSWORD_LENGTH = 12;
+export const MAX_PASSWORD_LENGTH = 20;
+export const PASSWORD_RULES = `${MIN_PASSWORD_LENGTH}–${MAX_PASSWORD_LENGTH} characters with uppercase, lowercase, a number and symbol.`;
 
 export function validateEmail(email: string): string | null {
   if (!email.trim()) return "Email is required.";
@@ -8,11 +10,14 @@ export function validateEmail(email: string): string | null {
 }
 
 export function validatePassword(password: string): string | null {
-  if (Array.from(password).length < MIN_PASSWORD_LENGTH) {
-    return `Password must be at least ${MIN_PASSWORD_LENGTH} characters.`;
+  const length = Array.from(password).length;
+  if (length < MIN_PASSWORD_LENGTH || length > MAX_PASSWORD_LENGTH) {
+    return `Password must be ${MIN_PASSWORD_LENGTH}–${MAX_PASSWORD_LENGTH} characters.`;
   }
-  if (!/[A-Za-z]/.test(password) || !/\d/.test(password)) {
-    return "Password must contain both letters and numbers.";
+  if (!/[a-z]/.test(password) || !/[A-Z]/.test(password)) {
+    return "Password must include uppercase and lowercase letters.";
   }
+  if (!/\d/.test(password)) return "Password must include a number.";
+  if (!/[^A-Za-z0-9]/.test(password)) return "Password must include a symbol.";
   return null;
 }

@@ -29,11 +29,13 @@ export async function proxy(request: NextRequest) {
   const { data } = await supabase.auth.getClaims();
   const signedIn = !!data?.claims;
   const path = request.nextUrl.pathname;
+  const isAuthForm = path === "/login" || path === "/signup";
+  const isPublicRoute = path === "/" || isAuthForm || path === "/auth/confirm";
 
   const url = request.nextUrl.clone();
-  if (!signedIn && path.startsWith("/dashboard")) {
+  if (!signedIn && !isPublicRoute) {
     url.pathname = "/login";
-  } else if (signedIn && (path === "/login" || path === "/signup")) {
+  } else if (signedIn && isAuthForm) {
     url.pathname = "/dashboard";
   }
 
@@ -49,6 +51,6 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!_next/(?:static/|image$|webpack-hmr$)|favicon\\.ico$|(?:file|globe|next|vercel|window)\\.svg$).*)",
   ],
 };

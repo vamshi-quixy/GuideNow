@@ -120,6 +120,7 @@
   --color-error-500: #ef4444;
   --color-error-600: #dc2626;
   --color-error-700: #b91c1c;
+  --color-error-800: #941c31;
 
   --color-info-50: #ecfeff;
   --color-info-100: #cffafe;
@@ -172,6 +173,7 @@
   --color-action-secondary-pressed: var(--color-neutral-200);
   --color-action-danger: var(--color-error-600);
   --color-action-danger-hover: var(--color-error-700);
+  --color-action-danger-pressed: var(--color-error-800);
 
   /* Status/*: bg-status-success-bg text-status-success-text, ... */
   --color-status-success-bg: var(--color-success-50);
